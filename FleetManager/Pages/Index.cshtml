@@ -1,0 +1,14 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Domovská stránka";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Vítejte ve webové aplikaci FleetManager.</h1>
+    <p>Tato aplikace slouží k správě vozového parku firmy. <br />FleetManager byl navrhnut a vytvořen pro účely Bakalářské práce Markem Škaldou.</p>
+    <br />
+    @if(!User.Identity.IsAuthenticated) {
+    <p>Pro zobrazení a pracování s daty se prosím <a href="Account/Login">přihlašte</a>.</p>
+    }
+</div>
