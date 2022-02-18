@@ -1,0 +1,36 @@
+﻿@page
+@model FleetManager.Pages.Manager.EditCarModel
+@{
+}
+
+<form method="post" class="form-control">
+    <input type="hidden" asp-for="Car.Id"/>
+    <h2 style="text-align: center;">Registrace nových vozidel</h2>
+    <label>Značka vozidla</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Car.Brand" placeholder="Zadejte značku vozidla">
+    </div>
+    <label>Model vozidla</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Car.Model" placeholder="Zadejte model vozidla">
+    </div>
+    <label>Rok a měsíc výroby</label>
+    <div class="input-group mb-3">
+        <input type="month" class="form-control" asp-for="Car.AssembledAt" placeholder="Zadejte měsíc a rok výroby vozidla">
+    </div>
+    <label>Rok a měsíc poslední TK</label>
+    <div class="input-group mb-3">
+        <input type="month" class="form-control" asp-for="Car.TechnicalInspectionDate" placeholder="Zadejte měsíc a rok poslední technické kontroly">
+    </div>
+    <label>VIN</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Car.VIN" placeholder="Zadejte VIN kód vozidla">
+    </div>
+    <label>SPZ</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Car.Identificator" placeholder="Zadejte SPZ vozidla">
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary">Upravit vozidlo</button>
+    </div>
+</form>

@@ -1,4 +1,6 @@
 using FleetManager.Data;
+using FleetManager.Services;
+using FleetManager.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +14,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddAuthorization(options => {
     options.AddPolicy("IsAdmin", policy => policy.RequireRole("Administrator"));
+    options.AddPolicy("IsManager", policy =>  policy.RequireRole("Manager", "Administrator"));
 });
 
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin", "IsAdmin");
+    options.Conventions.AuthorizeFolder("/Manager", "IsManager");
 }).AddRazorRuntimeCompilation();
 
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -43,6 +47,8 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
     options.ValidationInterval = TimeSpan.FromSeconds(0);
 });
+
+builder.Services.AddTransient<ICarService, CarService>();
 
 var app = builder.Build();
 

@@ -28,8 +28,28 @@
 
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Admin/CreateNewAccount">Vytvořit nový účet</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vytváření</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/Admin/CreateNewAccount">Vytvořit nový účet</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Manager/CreateNewCar">Vytvořit nové vozidlo</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Přehled</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/Manager/Cars">Přehled vozidel</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Přehled</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/Manager/Cars">Přehled vozidel</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Manager/CreateNewCar">Vytvořit nové vozidlo</a></li>
+                                </ul>
                             </li>
                         }
                     </ul>

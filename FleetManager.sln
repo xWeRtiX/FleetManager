@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManager", "FleetManager\FleetManager.csproj", "{EF1C6D50-1CAE-417A-8309-CC32CA9BA820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetManager.Data", "FleetManager.Data\FleetManager.Data.csproj", "{679BC35E-98FC-4779-88B5-BE623C61FE96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManager.Data", "FleetManager.Data\FleetManager.Data.csproj", "{679BC35E-98FC-4779-88B5-BE623C61FE96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

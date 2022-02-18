@@ -1,0 +1,58 @@
+﻿@page
+@model FleetManager.Pages.CarsModel
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @{
+        foreach (var car in Model.Cars)
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@car.Model</h6>
+                        <p class="card-text">
+                            <dl>
+                                <dt>Vyrobeno: </dt>
+                                <dd>@car.AssembledAt.ToString("MM'/'yy")</dd>
+                                <dt>TK:</dt>
+                                <dd>@car.TechnicalInspectionDate.ToString("MM'/'yy")</dd>
+                                <dt>VIN:</dt>
+                                <dd>@car.VIN</dd>
+                                <dt>SPZ: </dt>
+                                <dd>@car.Identificator</dd>
+                            </dl>
+                        </p>
+                        @if (User.IsInRole("Manager") || User.IsInRole("Administrator"))
+                        {
+                            <div class="card text-center">
+                                <a asp-page="/Manager/EditCar" asp-route-id="@car.Id" class="btn btn-primary">Upravit Auto</a>
+                            </div>
+                            <div class="card text-center">
+                                <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCar@(car.Id)">Smazat auto</a>
+                            </div>
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+        <div class="modal fade" id="deleteCar@(car.Id)" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                       <h5 class="modal-title" id="deleteCarLabel">Varování</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Opravdu chcete smazat vozidlo @car.Brand @car.Model s ID: @car.Id ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                        <a asp-page="/Manager/DeleteCar" asp-route-id="@car.Id" class="btn btn-primary">Smazat</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    }
+</div>
