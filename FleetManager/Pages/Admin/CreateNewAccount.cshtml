@@ -6,34 +6,34 @@
     <h2 style="text-align: center;">Registrace nových uživatelů</h2>
     <label for="basic-url" class="form-label">Uživatelské jméno</label>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Zadejte uživatelské jméno" asp-for="Name"/><br />
+        <input type="text" class="form-control" asp-for="Input.Username" placeholder="Zadejte uživatelské jméno"/><br />
     </div>
     <label for="basic-url" class="form-label">Heslo</label>
     <div class="input-group mb-3">
-        <input type="password" class="form-control" placeholder="Zadejte heslo" aria-label="Heslo" aria-describedby="basic-addon1">
+        <input type="password" asp-for="Input.Password" class="form-control" placeholder="Zadejte heslo" aria-label="Heslo" aria-describedby="basic-addon1">
     </div>
     <label for="basic-url" class="form-label">Email</label>
     <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">@@</span>
-        <input type="text" class="form-control" placeholder="Zadejte email" aria-label="Email" aria-describedby="basic-addon1">
+        <input type="email" asp-for="Input.Email" class="form-control" placeholder="Zadejte email" aria-label="Email" aria-describedby="basic-addon1">
     </div>
     <label for="basic-url" class="form-label">Křestní jméno</label>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Zadejte křestní jméno" aria-label="Jmeno" aria-describedby="basic-addon1">
+        <input type="text" asp-for="Input.FirstName" class="form-control" placeholder="Zadejte křestní jméno" aria-label="Jmeno" aria-describedby="basic-addon1">
     </div>
     <label for="basic-url" class="form-label">Příjmení</label>
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Zadejte příjmení" aria-label="Prijmeni" aria-describedby="basic-addon1">
+        <input type="text" asp-for="Input.LastName" class="form-control" placeholder="Zadejte příjmení" aria-label="Prijmeni" aria-describedby="basic-addon1">
     </div>
     <label for="basic-url" class="form-label">Role</label>
     <div class="input-group mb-3">
-        <select class="form-select">
-            <option selected>Uživatel</option>
-            <option value="1">Technik</option>
-            <option value="2">Administrátor</option>
+        <select asp-for="Input.Role" class="form-select">
+            <option value="Uzivatel" selected>Uživatel</option>
+            <option value="Technik">Technik</option>
+            <option value="Administrator">Administrátor</option>
         </select>
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
-        <button type="button" class="btn btn-primary">Registrovat uživatele</button>
+        <button type="submit" class="btn btn-primary">Registrovat uživatele</button>
     </div>
 </form>

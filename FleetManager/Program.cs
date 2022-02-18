@@ -9,9 +9,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DbContext"));
 });
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("IsAdmin", policy => policy.RequireRole("Administrator"));
+});
+
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/Admin");
+    options.Conventions.AuthorizeFolder("/Admin", "IsAdmin");
 }).AddRazorRuntimeCompilation();
 
 builder.Services.AddIdentity<AppUser, AppRole>(options =>
@@ -34,6 +39,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromDays(30);
 });
 
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    options.ValidationInterval = TimeSpan.FromSeconds(0);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,10 +59,18 @@ using (var scope = app.Services.CreateScope())
     if (app.Environment.IsDevelopment())
     {
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+        if (!roleManager.Roles.Any())
+        {
+            await roleManager.CreateAsync(new AppRole { Name = "Uzivatel" });
+            await roleManager.CreateAsync(new AppRole { Name = "Technik" });
+            await roleManager.CreateAsync(new AppRole { Name = "Administrator" });
+        }
         if (!userManager.Users.Any())
         {
-            var adminUser = new AppUser { UserName = "admin" };
+            var adminUser = new AppUser { UserName = "admin", FirstName = "Marek", LastName = "Škalda" };
             var r = userManager.CreateAsync(adminUser, "ahojJaJsemAdmin").Result;
+            await userManager.AddToRoleAsync(adminUser, "Administrator");
             if (r != IdentityResult.Success)
             {
                 var errors = string.Join(", ", r.Errors.Select(x => x.Description));
