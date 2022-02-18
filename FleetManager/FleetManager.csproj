@@ -25,4 +25,9 @@
     <ProjectReference Include="..\FleetManager.Data\FleetManager.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Pages\Manager\" />
+  </ItemGroup>
+
 </Project>

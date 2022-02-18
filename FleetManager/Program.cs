@@ -62,8 +62,8 @@ using (var scope = app.Services.CreateScope())
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
         if (!roleManager.Roles.Any())
         {
-            await roleManager.CreateAsync(new AppRole { Name = "Uzivatel" });
-            await roleManager.CreateAsync(new AppRole { Name = "Technik" });
+            await roleManager.CreateAsync(new AppRole { Name = "User" });
+            await roleManager.CreateAsync(new AppRole { Name = "Manager" });
             await roleManager.CreateAsync(new AppRole { Name = "Administrator" });
         }
         if (!userManager.Users.Any())
