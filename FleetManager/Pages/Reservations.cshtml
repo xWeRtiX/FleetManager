@@ -1,0 +1,59 @@
+﻿@page
+@model FleetManager.Pages.ReservationsModel
+@{
+}
+<form>
+    <input asp-for="Date" type="date" />
+    <button class="btn btn-primary" type="submit">Vybrat</button>
+</form>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Vozidlo</th>
+            <th scope="col">06:00</th>
+            <th scope="col">07:00</th>
+            <th scope="col">08:00</th>
+            <th scope="col">09:00</th>
+            <th scope="col">10:00</th>
+            <th scope="col">11:00</th>
+            <th scope="col">12:00</th>
+            <th scope="col">13:00</th>
+            <th scope="col">14:00</th>
+            <th scope="col">15:00</th>
+            <th scope="col">16:00</th>
+            <th scope="col">17:00</th>
+            <th scope="col">18:00</th>
+            <th scope="col">19:00</th>
+            <th scope="col">20:00</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model.Cars)
+        {
+            <tr>
+                <th scope="row">@car.Identificator</th>
+                @{
+                    int lastHour = 6;
+                    var reservation = car.CarReservations.Where(w => w.From.DayOfYear == Model.Date.DayOfYear && w.From.Year == Model.Date.Year).OrderBy(o => o.From).ToArray();
+                }
+                @for (int i = 0; i < car.CarReservations.Where(w => w.From.DayOfYear == Model.Date.DayOfYear && w.From.Year == Model.Date.Year).Count(); i++)
+                {
+
+                    @for (int x = 0; x < reservation[i].From.Hour - lastHour; x++)
+                    {
+                        <td></td>
+                    }
+
+                    <td colspan="@(reservation[i].To.Hour-reservation[i].From.Hour)" class="table-active">@reservation[i].User.FirstName @reservation[i].User.LastName</td>
+                    lastHour = reservation[i].To.Hour;
+                }
+                @for (int i = lastHour; i <= 20; i++)
+                {
+
+                    <td></td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>

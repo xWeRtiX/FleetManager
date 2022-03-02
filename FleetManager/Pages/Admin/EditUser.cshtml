@@ -1,0 +1,28 @@
+﻿@page
+@model FleetManager.Pages.Admin.EditUserModel
+@{
+}
+
+<form method="post" class="form-control">
+    <input type="hidden" asp-for="Input.Id"/>
+    <h2 style="text-align: center;">Úprava uživatelů</h2>
+    <label>Uživatelské jméno</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Input.UserName" placeholder="Přihlašovací jméno">
+    </div>
+    <label>Křestní jméno</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Input.FirstName" placeholder="Křestní jméno">
+    </div>
+    <label>Příjmení</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Input.LastName" placeholder="Příjmení">
+    </div>
+    <label>Email</label>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" asp-for="Input.Email" placeholder="Email">
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary">Upravit uživatele</button>
+    </div>
+</form>

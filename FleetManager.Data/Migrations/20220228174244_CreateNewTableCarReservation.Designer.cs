@@ -3,6 +3,7 @@ using System;
 using FleetManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FleetManager.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220228174244_CreateNewTableCarReservation")]
+    partial class CreateNewTableCarReservation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.2");
@@ -177,30 +179,6 @@ namespace FleetManager.Data.Migrations
                     b.ToTable("CarReservations");
                 });
 
-            modelBuilder.Entity("FleetManager.Data.Note", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("Notes");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -303,7 +281,7 @@ namespace FleetManager.Data.Migrations
             modelBuilder.Entity("FleetManager.Data.CarReservation", b =>
                 {
                     b.HasOne("FleetManager.Data.Car", "Car")
-                        .WithMany("CarReservations")
+                        .WithMany()
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -317,17 +295,6 @@ namespace FleetManager.Data.Migrations
                     b.Navigation("Car");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FleetManager.Data.Note", b =>
-                {
-                    b.HasOne("FleetManager.Data.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -379,11 +346,6 @@ namespace FleetManager.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("FleetManager.Data.Car", b =>
-                {
-                    b.Navigation("CarReservations");
                 });
 #pragma warning restore 612, 618
         }

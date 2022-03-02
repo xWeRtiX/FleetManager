@@ -1,5 +1,7 @@
 ﻿@page
 @model FleetManager.Pages.CarsModel
+@if(User.Identity.IsAuthenticated)
+{
 <div class="row row-cols-1 row-cols-md-2 g-4">
     @{
         foreach (var car in Model.Cars)
@@ -15,44 +17,51 @@
                                 <dd>@car.AssembledAt.ToString("MM'/'yy")</dd>
                                 <dt>TK:</dt>
                                 <dd>@car.TechnicalInspectionDate.ToString("MM'/'yy")</dd>
+    
                                 <dt>VIN:</dt>
                                 <dd>@car.VIN</dd>
                                 <dt>SPZ: </dt>
                                 <dd>@car.Identificator</dd>
                             </dl>
                         </p>
+                        <div class="card text-center">
+                                <a asp-page="/ReserveCar" asp-route-id="@car.Id" class="btn btn-primary">Rezervovat auto</a>
+                                <a asp-page="/Notes" asp-route-carId="@car.Id" class="btn btn-primary">Přidat poznámku</a>
+                            </div>
                         @if (User.IsInRole("Manager") || User.IsInRole("Administrator"))
                         {
                             <div class="card text-center">
-                                <a asp-page="/Manager/EditCar" asp-route-id="@car.Id" class="btn btn-primary">Upravit Auto</a>
+                                <a asp-page="/Manager/EditCar" asp-route-id="@car.Id" class="btn btn-warning">Upravit Auto</a>
                             </div>
                             <div class="card text-center">
                                 <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCar@(car.Id)">Smazat auto</a>
                             </div>
-
-
                         }
                     </div>
                 </div>
             </div>
 
-        <div class="modal fade" id="deleteCar@(car.Id)" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                       <h5 class="modal-title" id="deleteCarLabel">Varování</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Opravdu chcete smazat vozidlo @car.Brand @car.Model s ID: @car.Id ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-                        <a asp-page="/Manager/DeleteCar" asp-route-id="@car.Id" class="btn btn-primary">Smazat</a>
+            <div class="modal fade" id="deleteCar@(car.Id)" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteCarLabel">Varování</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Opravdu chcete smazat vozidlo @car.Brand @car.Model s ID: @car.Id ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                            <a asp-page="/Manager/DeleteCar" asp-route-id="@car.Id" class="btn btn-primary">Smazat</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     }
 </div>
+
+} else {
+    <h1 style="text-align: center">Nejste přihlášen</h1>
+}

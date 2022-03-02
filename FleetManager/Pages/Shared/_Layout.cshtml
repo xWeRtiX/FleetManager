@@ -38,7 +38,8 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Přehled</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-page="/Manager/Cars">Přehled vozidel</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Cars">Přehled vozidel</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Admin/Users">Přehled uživatelů</a></li>
                                 </ul>
                             </li>
                         }
@@ -64,7 +65,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-page="/Account/Logout">Vítej @User.Identity.Name!</a>
+                                <a class="nav-link " asp-area="" asp-page="/">Vítej @User.Identity.Name!</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link " asp-area="" asp-page="/Account/Logout">Odhlásit se</a>

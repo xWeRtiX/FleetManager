@@ -21,5 +21,7 @@ namespace FleetManager.Data
         public string VIN { get; set; }
 
         public string Identificator { get; set; }
+
+        public List<CarReservation> CarReservations { get; set; }
     }
 }

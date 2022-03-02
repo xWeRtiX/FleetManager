@@ -13,6 +13,10 @@ namespace FleetManager.Data
 
         public DbSet<Car> Cars { get; set; }
 
+        public DbSet<CarReservation> CarReservations { get; set; }
+
+        public DbSet<Note> Notes { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options) { }
     }

@@ -1,0 +1,33 @@
+﻿@page
+@model FleetManager.Pages.NotesModel
+@{
+}
+<form method="POST" class="input-group">
+     <input type="text" class="form-control" asp-for="Input.Title">
+    <textarea asp-for="Input.Description"  class="form-control"></textarea>
+    <button type="submit" >Potvrdit</button>
+</form>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    @{
+        foreach (var note in Model.Notes)
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@note.Title</h5>
+                        <p class="card-text">
+                            @note.Description
+                        </p>
+                        @if (User.IsInRole("Manager") || User.IsInRole("Administrator"))
+                        {
+                            <div class="card text-center">
+                                <a asp-page="/Manager/DeleteNote" asp-route-id="@note.Id" asp-route-carId="@note.CarId" class="btn btn-danger">Smazat poznámku</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

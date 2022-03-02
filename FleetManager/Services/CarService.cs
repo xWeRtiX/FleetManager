@@ -1,5 +1,6 @@
 ﻿using FleetManager.Data;
 using FleetManager.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FleetManager.Services
 {
@@ -39,7 +40,7 @@ namespace FleetManager.Services
 
         public List<Car> GetCars()
         {
-            return _context.Cars.ToList();
+            return _context.Cars.Include(i => i.CarReservations).ThenInclude(t => t.User).ToList();
         }
 
 

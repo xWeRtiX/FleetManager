@@ -50,6 +50,12 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 
 builder.Services.AddTransient<ICarService, CarService>();
 
+builder.Services.AddTransient<IUserService, UserService>();
+
+builder.Services.AddTransient<ICarReservationService, CarReservationService>();
+
+builder.Services.AddTransient<INoteService, NoteService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
