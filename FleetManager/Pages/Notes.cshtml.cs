@@ -34,6 +34,8 @@ namespace FleetManager.Pages
 
         public IActionResult OnPost(int carId)
         {
+            if (Input.Title == null || Input.Description == null) return RedirectToPage("/Notes", new { carId });
+
             _noteService.Create(new Note { CarId = carId, Description = Input.Description, Title = Input.Title });
             return RedirectToPage("/Notes", new { carId });
         }

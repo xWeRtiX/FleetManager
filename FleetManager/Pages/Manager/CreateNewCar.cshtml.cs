@@ -1,4 +1,6 @@
+using FleetManager.Data;
 using FleetManager.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +10,12 @@ namespace FleetManager.Pages.Manager
     public class CreateNewCarModel : PageModel
     {
         private readonly ICarService _carService;
+
+        private readonly UserManager<AppUser> _userManager;
+
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        private readonly ILogService _logService;
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -32,9 +40,12 @@ namespace FleetManager.Pages.Manager
 
         }
 
-        public CreateNewCarModel(ICarService carService)
+        public CreateNewCarModel(ICarService carService, UserManager<AppUser> userManager, IHttpContextAccessor contextAccessor, ILogService logService)
         {
             _carService = carService;
+            _userManager = userManager;
+            _contextAccessor = contextAccessor;
+            _logService = logService;
         }
 
         public IActionResult OnPost()
@@ -49,6 +60,8 @@ namespace FleetManager.Pages.Manager
                 VIN = Input.VIN,
                 Identificator = Input.Identificator
             });
+            var userId = _userManager.GetUserId(_contextAccessor.HttpContext.User);
+            _logService.Log(LogType.INFO, $"Vytvoøil nové vozidlo s SPZ {Input.Identificator} a VIN {Input.VIN}", Convert.ToInt32(userId));
             return Page();
         }
     }

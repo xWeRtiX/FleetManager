@@ -17,6 +17,8 @@ namespace FleetManager.Data
 
         public DbSet<Note> Notes { get; set; }
 
+        public DbSet<Log> Logs { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options) { }
     }

@@ -7,7 +7,7 @@ namespace FleetManager.Services.Interfaces
         void Create(CarReservation carReservation);
 
         List<CarReservation> Get(int carId, DateTime date);
-        //List<CarReservation> GetAll();
+        List<CarReservation> GetAll();
 
     }
 }

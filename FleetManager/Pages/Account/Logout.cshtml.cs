@@ -1,4 +1,5 @@
 using FleetManager.Data;
+using FleetManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -11,9 +12,18 @@ namespace FleetManager.Pages.Account
     {
         private readonly SignInManager<AppUser> _signInManager;
 
-        public LogoutModel(SignInManager<AppUser> signInManager)
+        private readonly UserManager<AppUser> _userManager;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        private readonly ILogService _logService;
+
+        public LogoutModel(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, ILogService logService)
         {
             this._signInManager = signInManager;
+            this._userManager = userManager;
+            this._httpContextAccessor = httpContextAccessor;
+            this._logService = logService;
 
         }
 
@@ -26,6 +36,8 @@ namespace FleetManager.Pages.Account
             }
             //await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
             var callbackUrl = Url.Page("/Index", pageHandler: null, values: null, protocol: Request.Scheme);
+            var userId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+            _logService.Log(LogType.INFO, $"Odhlásil se", Convert.ToInt32(userId));
             return SignOut(new AuthenticationProperties { RedirectUri = callbackUrl });
         }
     }

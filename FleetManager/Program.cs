@@ -56,6 +56,8 @@ builder.Services.AddTransient<ICarReservationService, CarReservationService>();
 
 builder.Services.AddTransient<INoteService, NoteService>();
 
+builder.Services.AddTransient<ILogService, LogService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

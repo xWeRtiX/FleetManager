@@ -1,4 +1,5 @@
 using FleetManager.Data;
+using FleetManager.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,9 +11,18 @@ namespace FleetManager.Pages.Account
     {
         private readonly SignInManager<AppUser> _signInManager;
 
-        public LoginModel(SignInManager<AppUser> signInManager)
+        private readonly UserManager<AppUser> _userManager;
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        private readonly ILogService _logService;
+
+        public LoginModel(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, ILogService logService)
         {
             this._signInManager = signInManager;
+            this._userManager = userManager;
+            this._httpContextAccessor = httpContextAccessor;
+            this._logService = logService;
         }
 
         [BindProperty]
@@ -41,6 +51,8 @@ namespace FleetManager.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(Input.UserName);
+                    _logService.Log(LogType.INFO, $"Pøihlásil se", Convert.ToInt32(user.Id));
                     return this.LocalRedirect(returnUrl);
                 }
                 else

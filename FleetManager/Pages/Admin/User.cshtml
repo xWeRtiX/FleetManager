@@ -1,0 +1,68 @@
+﻿@page
+@model FleetManager.Pages.Admin.UserModel
+@{
+}
+
+<div class="card text-center" style="width: 85rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Model.User.UserName</h5>
+        <h6 class="card-subtitle mb-2 text-muted">@Model.User.Email</h6>
+        <p class="card-text">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Typ</th>
+                        <th scope="col">Zpráva</th>
+                        <th scope="col">Datum</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var log in Model.Logs)
+                    {
+                        <tr>
+                            <th scope="row">@log.Id</th>
+                            <td>@log.Type</td>
+                            <td>@log.Text</td>
+                            <td>@log.Date</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </p>
+        <a asp-page="/Admin/EditUser" asp-route-id="@Model.User.Id" class="btn btn-warning">Upravit uživatele</a>
+        <a asp-page="/Admin/DeleteUser" asp-route-id="@Model.User.Id" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser@(Model.User.Id)">Smazat uživatele</a>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteUser@(Model.User.Id)" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserLabel">Varování</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            @if (User.Identity.Name != Model.User.UserName)
+            {
+                <div class="modal-body">
+                    Opravdu chcete smazat uživatele @Model.User.UserName - @Model.User.FirstName @Model.User.LastName s ID: @Model.User.Id ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+
+                    <a asp-page="/Admin/DeleteUser" asp-route-id="@Model.User.Id" class="btn btn-primary">Smazat</a>
+                </div>
+            }
+            else
+            {
+                <div class="modal-body">
+                    Svůj aktuální účet  @Model.User.UserName - @Model.User.FirstName @Model.User.LastName s ID: @Model.User.Id smazat nemůžete.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

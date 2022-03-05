@@ -7,11 +7,11 @@
     <h3>Rezervujete vozidlo </h3>
     <label>Rezervace platí od:</label>
     <div class="input-group mb-3">
-        <input type="datetime-local" asp-for="Input.From" class="form-control" >
+        <input type="datetime-local" asp-for="Input.From" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')" class="form-control" >
     </div>
     <label>A platí do:</label>
     <div class="input-group mb-3">
-        <input type="datetime-local" asp-for="Input.To" class="form-control">
+        <input type="datetime-local" asp-for="Input.To" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')" class="form-control">
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
         <button type="submit" class="btn btn-primary">Vytvořit rezervaci</button>

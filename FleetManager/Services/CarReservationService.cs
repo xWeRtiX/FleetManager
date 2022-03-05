@@ -23,6 +23,11 @@ namespace FleetManager.Services
             return _context.CarReservations.Where(w => w.CarId == carId && w.From.DayOfYear == date.DayOfYear && w.From.Year == date.Year).ToList();
         }
 
+        public List<CarReservation> GetAll()
+        {
+            return _context.CarReservations.ToList();
+        }
+
         /*
 public List<CarReservation> GetAll()
 {

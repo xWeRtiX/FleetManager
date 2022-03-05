@@ -1,7 +1,6 @@
 ﻿@page
 @model FleetManager.Pages.ReservationsModel
-@{
-}
+@if(User.Identity.IsAuthenticated) {
 <form>
     <input asp-for="Date" type="date" />
     <button class="btn btn-primary" type="submit">Vybrat</button>
@@ -57,3 +56,6 @@
         }
     </tbody>
 </table>
+} else {
+ <h1>Pro zobrazení této stránky se musíte přihlásit.</h1>
+}

@@ -13,16 +13,18 @@ namespace FleetManager.Pages
         private readonly UserManager<AppUser> _userManager;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public ReserveCarModel(ICarReservationService carReservationService, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+
+        private readonly ILogService _logService;
+        public ReserveCarModel(ICarReservationService carReservationService, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, ILogService logService)
         {
             _carReservationService = carReservationService;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _logService = logService;
         }
 
         [BindProperty]
         public InputModel Input { get; set; } = new InputModel();
-
 
         public class InputModel
         {
@@ -33,6 +35,7 @@ namespace FleetManager.Pages
             public DateTime To { get; set; }
 
         }
+
         public void OnGet(int id)
         {
             Input.CarId = id;
@@ -52,6 +55,7 @@ namespace FleetManager.Pages
                 From = Input.From,
                 To = Input.To
             });
+            _logService.Log(LogType.INFO, $"Vytvoøil rezervaci vozidla ID {Input.CarId} od {Input.From} do {Input.To} ", Convert.ToInt32(userId));
         }
     }
 }
