@@ -22,10 +22,9 @@
                         <li class="nav-item">
                             <a class="nav-link " asp-area="" asp-page="/Index">Domů</a>
                         </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-page="/Reservations">Rezervace</a>
-                            </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-page="/Reservations">Rezervace</a>
+                        </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
                         {
                             <li class="nav-item dropdown">
@@ -60,7 +59,6 @@
                             <li class="nav-item">
                                 <a class="nav-link  align-items-xxl-end" asp-area="" asp-page="/Account/Login">Přihlásit se</a>
                             </li>
-
                         }
                         else
                         {
