@@ -12,9 +12,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DbContext"));
 });
 
-builder.Services.AddAuthorization(options => {
+builder.Services.AddAuthorization(options =>
+{
     options.AddPolicy("IsAdmin", policy => policy.RequireRole("Administrator"));
-    options.AddPolicy("IsManager", policy =>  policy.RequireRole("Manager", "Administrator"));
+    options.AddPolicy("IsManager", policy => policy.RequireRole("Manager", "Administrator"));
 });
 
 builder.Services.AddRazorPages(options =>
@@ -63,6 +64,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+    app.Urls.Add("http://*:80");
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
@@ -70,26 +72,24 @@ app.UseStaticFiles();
 using (var scope = app.Services.CreateScope())
 {
     scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
-    if (app.Environment.IsDevelopment())
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+    if (!roleManager.Roles.Any())
     {
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
-        if (!roleManager.Roles.Any())
+        await roleManager.CreateAsync(new AppRole { Name = "User" });
+        await roleManager.CreateAsync(new AppRole { Name = "Manager" });
+        await roleManager.CreateAsync(new AppRole { Name = "Administrator" });
+    }
+    if (!userManager.Users.Any())
+    {
+        var adminUser = new AppUser { UserName = "admin", FirstName = "Marek", LastName = "Škalda" };
+        var r = userManager.CreateAsync(adminUser, "ahojJaJsemAdmin").Result;
+        await userManager.AddToRoleAsync(adminUser, "Administrator");
+        if (r != IdentityResult.Success)
         {
-            await roleManager.CreateAsync(new AppRole { Name = "User" });
-            await roleManager.CreateAsync(new AppRole { Name = "Manager" });
-            await roleManager.CreateAsync(new AppRole { Name = "Administrator" });
-        }
-        if (!userManager.Users.Any())
-        {
-            var adminUser = new AppUser { UserName = "admin", FirstName = "Marek", LastName = "Škalda" };
-            var r = userManager.CreateAsync(adminUser, "ahojJaJsemAdmin").Result;
-            await userManager.AddToRoleAsync(adminUser, "Administrator");
-            if (r != IdentityResult.Success)
-            {
-                var errors = string.Join(", ", r.Errors.Select(x => x.Description));
-                throw new Exception("Seeding default user failed: " + errors);
-            }
+            var errors = string.Join(", ", r.Errors.Select(x => x.Description));
+            throw new Exception("Seeding default user failed: " + errors);
         }
     }
 }
